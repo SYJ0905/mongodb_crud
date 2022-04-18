@@ -1,7 +1,7 @@
 const http = require('http');
 const libs = require('./libs');
 const { errorHandler } = require('./responseHandler');
-const { getRooms } = require('./getRoom');
+const { getRooms, getRoom } = require('./getRoom');
 const addRoom = require('./addRoom');
 const { deleteRooms, deleteRoom } = require('./deleteRoom');
 const patchRoom = require('./patchRoom');
@@ -34,6 +34,8 @@ const requestListener = (req, res) => {
 
   if (url === '/rooms' && method === 'GET') {
     getRooms(data);
+  } else if (url.startsWith('/rooms/') && method === 'GET') {
+    getRoom(data);
   } else if (url === '/rooms' && method === 'POST') {
     addRoom(data);
   } else if (url === '/rooms' && method === 'DELETE') {

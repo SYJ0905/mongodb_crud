@@ -12,7 +12,31 @@ const message = {
   formatFail: '格式錯誤',
 };
 
+const fieldKeyExist = (model, data, fieldValidate = true) => {
+  /** 檢查物件內 key 值是否存在 schema 的 key 值當中 start */
+  const schemaData = model.prototype.schema.obj;
+  const schemaKey = [];
+
+  Object.keys(schemaData).forEach((item) => {
+    if (schemaData[item].required && schemaData[item].required.indexOf(true) > -1) {
+      schemaKey.push(item);
+    }
+  });
+
+  const returnValue = Object.keys(data).every((item) => {
+    if (fieldValidate) {
+      if (schemaKey.indexOf(item) === -1) {
+        return false;
+      }
+    }
+    return true;
+  });
+  return returnValue;
+  /** 檢查物件內 key 值是否存在 schema 的 key 值當中 end */
+};
+
 module.exports = {
   headers,
   message,
+  fieldKeyExist,
 };

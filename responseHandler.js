@@ -15,15 +15,19 @@ const errorHandler = (res, statusCode, messageContent) => {
   res.writeHead(statusCode, headers);
   let newMessage;
 
-  if (typeof(messageContent) === 'string') {
+  if (typeof (messageContent) === 'string') {
     newMessage = messageContent;
-  } else if (typeof(messageContent) === 'object') {
+  } else if (typeof (messageContent) === 'object') {
     const errorText = [];
-    for (const key in messageContent.errors) {
-      if (Object.hasOwnProperty.call(messageContent.errors, key)) {
-        errorText.push(`${messageContent.errors[key].properties.message}${wrongColumn}`);
-      }
-    }
+    Object.keys(messageContent.errors).forEach((item) => {
+      errorText.push(`${messageContent.errors[item].properties.message}${wrongColumn}`);
+    });
+
+    // for (const key in messageContent.errors) {
+    //   if (Object.hasOwnProperty.call(messageContent.errors, key)) {
+    //     errorText.push(`${messageContent.errors[key].properties.message}${wrongColumn}`);
+    //   }
+    // }
     newMessage = errorText;
   }
 

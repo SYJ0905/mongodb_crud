@@ -2,11 +2,11 @@ const { successHandler, errorHandler } = require('./responseHandler');
 const { message } = require('./libs');
 const Room = require('./models/room');
 
-const addRoom = async data => {
+const addRoom = async (data) => {
   const { req, res } = data;
 
   let body = '';
-  req.on('data', chunk => {
+  req.on('data', (chunk) => {
     body += chunk;
   });
 
@@ -25,7 +25,7 @@ const addRoom = async data => {
           const rooms = await Room.find();
           successHandler(res, rooms);
         })
-        .catch(error => {
+        .catch((error) => {
           errorHandler(res, 400, error);
         });
     } catch (error) {

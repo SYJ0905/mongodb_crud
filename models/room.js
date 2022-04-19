@@ -4,15 +4,15 @@ const roomSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, '名稱']
+      required: [true, '名稱'],
     },
     price: {
       type: Number,
-      required: [true, '價格']
+      required: [true, '價格'],
     },
     rating: {
       type: Number,
-      required: [true, '評價']
+      required: [true, '評價'],
     },
     createdAt: {
       type: Date,

@@ -3,10 +3,10 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const libs = require('./libs');
 const { errorHandler } = require('./responseHandler');
-const { getRooms, getRoom } = require('./getRoom');
-const addRoom = require('./addRoom');
-const { deleteRooms, deleteRoom } = require('./deleteRoom');
-const patchRoom = require('./patchRoom');
+const { getPosts, getPost } = require('./controllers/post/getPost');
+const addPost = require('./controllers/post/addPost');
+const { deletePosts, deletePost } = require('./controllers/post/deletePost');
+const patchPost = require('./controllers/post/patchPost');
 
 dotenv.config({ path: './config.env' });
 
@@ -33,18 +33,18 @@ const requestListener = (req, res) => {
     res,
   };
 
-  if (url === '/rooms' && method === 'GET') {
-    getRooms(data);
-  } else if (url.startsWith('/rooms/') && method === 'GET') {
-    getRoom(data);
-  } else if (url === '/rooms' && method === 'POST') {
-    addRoom(data);
-  } else if (url === '/rooms' && method === 'DELETE') {
-    deleteRooms(data);
-  } else if (url.startsWith('/rooms/') && method === 'DELETE') {
-    deleteRoom(data);
-  } else if (url.startsWith('/rooms/') && method === 'PATCH') {
-    patchRoom(data);
+  if (url === '/posts' && method === 'GET') {
+    getPosts(data);
+  } else if (url.startsWith('/posts/') && method === 'GET') {
+    getPost(data);
+  } else if (url === '/posts' && method === 'POST') {
+    addPost(data);
+  } else if (url === '/posts' && method === 'DELETE') {
+    deletePosts(data);
+  } else if (url.startsWith('/posts/') && method === 'DELETE') {
+    deletePost(data);
+  } else if (url.startsWith('/posts/') && method === 'PATCH') {
+    patchPost(data);
   } else if (method === 'OPTIONS') {
     res.writeHead(200, headers);
     res.end();

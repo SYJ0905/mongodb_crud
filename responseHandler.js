@@ -10,7 +10,7 @@ const successHandler = (res, data) => {
 };
 
 const errorHandler = (res, statusCode, messageContent) => {
-  const { wrongColumn } = message;
+  const { wrongKey, wrongValue } = message;
 
   res.writeHead(statusCode, headers);
   let newMessage;
@@ -20,14 +20,15 @@ const errorHandler = (res, statusCode, messageContent) => {
   } else if (typeof (messageContent) === 'object') {
     const errorText = [];
     Object.keys(messageContent.errors).forEach((item) => {
-      errorText.push(`${messageContent.errors[item].properties.message}${wrongColumn}`);
+      /** 錯誤訊息 自訂 => payload 中的 key 不存在 schema 內 */
+      if (Object.prototype.hasOwnProperty.call(messageContent, 'status')) {
+        errorText.push(`${messageContent.errors[item]} ${wrongKey}`);
+      }
+      /** 錯誤訊息 Mongoose => schema key required 的值不得為空 */
+      if (Object.prototype.hasOwnProperty.call(messageContent.errors[item], 'properties')) {
+        errorText.push(`${messageContent.errors[item].properties.message}${wrongValue}`);
+      }
     });
-
-    // for (const key in messageContent.errors) {
-    //   if (Object.hasOwnProperty.call(messageContent.errors, key)) {
-    //     errorText.push(`${messageContent.errors[key].properties.message}${wrongColumn}`);
-    //   }
-    // }
     newMessage = errorText;
   }
 
